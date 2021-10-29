@@ -1,0 +1,3 @@
+[submodule ".sc"]
+	path = .sc
+	url = git@github.com:slamcore/slamcore-ros2-examples-testing.git

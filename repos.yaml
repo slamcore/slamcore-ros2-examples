@@ -1,0 +1,9 @@
+repositories:
+  kobuki_ros:
+    type: git
+    version: devel
+    url: https://github.com/kobuki-base/kobuki_ros
+  kobuki_ros_interfaces:
+    type: git
+    version: devel
+    url: https://github.com/kobuki-base/kobuki_ros_interfaces
