@@ -15,6 +15,7 @@ repos:
       - id: trailing-whitespace
       # - id: sort-simple-yaml
       - id: pretty-format-json
+        args: ["--autofix"]
   - repo: https://github.com/markdownlint/markdownlint
     rev: "v0.11.0"
     hooks:
@@ -48,6 +49,11 @@ repos:
         language: system
         pass_filenames: true
         types: [python]
+  - repo: https://github.com/tcort/markdown-link-check
+    rev: "v3.9.3"
+    hooks:
+      - id: markdown-link-check
+        args: ["--config", ".markdown-link-check.json"]
   - repo: meta
     hooks:
       - id: check-hooks-apply
