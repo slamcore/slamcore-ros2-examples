@@ -12,7 +12,7 @@
 This repository contains packages to go alongside our dedicated demonstration
 tutorials which will allow you to get SLAMcore up and running with ROS2 Foxy in
 no time. The current example demonstrates how to integrate
-[SLAMcore](https://www.slamcore.com/) with [nav2](https://navigation.ros.org/),
+[SLAMcore](https://www.slamcore.com/) with [Nav2](https://navigation.ros.org/),
 the ROS2 Navigation Stack and was designed for a
 [Kobuki](http://kobuki.yujinrobot.com/about2/) mobile base, with a [Jetson
 Xavier
@@ -41,8 +41,8 @@ You have two options to setup your system for these demo:
    See the [Dockerfile](Dockerfile) for reference.
 
 Regardless of preference of setup, the next step is to learn how to integrate
-SLAMcore's ROS2 wrapper with nav2. To do this head over to the [nav2 integration
-tutorial](https://docs.slamcore.com/nav2-integration.html). The tutorial
+SLAMcore's ROS2 wrapper with Nav2. To do this head over to the [Nav2 Integration
+Tutorial](https://docs.slamcore.com/nav2-integration.html). The tutorial
 will take you through all the steps from cloning this repository and setting up
 dependencies to creating a map, navigating and sending goals from
 a remote machine.

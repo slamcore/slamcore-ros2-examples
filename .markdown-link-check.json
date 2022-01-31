@@ -1,7 +1,3 @@
 {
-  "ignorePatterns": [
-    {
-      "pattern": "docs.slamcore.com/nav2-integration.html"
-    }
-  ]
+  "ignorePatterns": []
 }
