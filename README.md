@@ -2,7 +2,7 @@
 
 <a href="https://docs.slamcore.com/nav2-integration.html">
 <img alt="ros2-examples documentation" src="https://img.shields.io/badge/docs-docs.slamcore.com-orange"></a>
-<a href="https://github.com/bergercookie/taskwarrior-syncall/blob/master/LICENSE" alt="LICENSE">
+<a href="https://github.com/slamcore/slamcore-ros2-examples/blob/master/LICENSE.md" alt="LICENSE">
 <img src="https://img.shields.io/github/license/slamcore/slamcore-ros2-examples.svg" /></a>
 <a href="https://github.com/pre-commit/pre-commit">
 <img src="https://img.shields.io/badge/pre--commit-enabled-brightgreen?logo=pre-commit&logoColor=white" alt="pre-commit"></a>
