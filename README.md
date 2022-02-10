@@ -18,7 +18,7 @@ the ROS2 Navigation Stack and was designed for a
 Xavier
 NX](https://www.nvidia.com/en-gb/autonomous-machines/embedded-systems/jetson-xavier-nx/)
 and [RealSense D435i](https://www.intelrealsense.com/depth-camera-d435i/) depth
-camera. Nevertheless, by following our [Navigation Stack Integration
+camera. Nevertheless, by following our [Nav2 Integration
 Tutorial](https://docs.slamcore.com/nav2-integration.html) you will be able to
 modify the launch and config files in this repo to suit your setup.
 
@@ -31,7 +31,7 @@ access](https://www.slamcore.com/sdk-access) today to get started.
 
 ## Getting started
 
-You have two options to setup your system for these demo:
+You have two options to setup your system for this demo:
 
 1. Run the demo inside a docker container. You can create it using the
    [Dockerfile](Dockerfile) and [Makefile](Makefile) provided. This is
