@@ -1,0 +1,72 @@
+{
+  "Base": {
+    "ProfileName": "turtlebot4_lite",
+    "Readers": [
+      {
+        "FpsOverride": 7.5
+      }
+    ]
+  },
+  "LocalPointCloud": {
+    "LowerBound": -0.12
+  },
+  "Patch": {
+    "Base": {
+      "Sensors": [
+        {
+          "EstimationScaleY": false,
+          "ReferenceFrame": "Odometry_0",
+          "ScaleTheta": 0.9971756463667224,
+          "ScaleX": 1.000300547317498,
+          "ScaleY": 1.0,
+          "SigmaCauchyKernel": 0.3777,
+          "SigmaTheta": 1.44628,
+          "SigmaX": 0.00487632,
+          "SigmaY": 0.00470783,
+          "TimeOffset": "25.25ms",
+          "Type": [
+            "Odometry",
+            0
+          ]
+        }
+      ],
+      "StaticTransforms": [
+        {
+          "ChildReferenceFrame": "Odometry_0",
+          "ReferenceFrame": "IMU_0",
+          "T": {
+            "R": [
+              0.49758341735952427,
+              0.5106352843618207,
+              -0.5032015523687866,
+              0.4883139838538143
+            ],
+            "T": [
+              0.014586520771919145,
+              0.18344916350457,
+              0.0583113630776011
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Position": {
+    "Backend": {
+      "Type": "VisualInertialKinematic"
+    },
+    "Frontend": {
+      "ExtractorType": "SAFE_V2",
+      "TrackingOnPlane": {
+        "DetectionMethod": "USE_PRIOR_PLANE_NORMAL",
+        "DoTrackingOnPlane": true,
+        "PriorPlaneNormal": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    }
+  },
+  "Version": "1.0.0"
+}

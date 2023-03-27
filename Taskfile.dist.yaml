@@ -1,0 +1,287 @@
+version: "3"
+
+vars:
+  ROS_VER:
+    sh: echo $ROS_VER
+  DOCKER_NAME_BASE: "slamcore_ros2_nav_{{.ROS_VER}}"
+  DOCKERFILE_PATH: "Dockerfile"
+  DOCKER_USER: slamcore
+  ROS_WS: /home/{{.DOCKER_USER}}/ros_ws
+  THIS_REPONAME:
+    sh: echo $(basename {{.ROOT_DIR}})
+  LOGIN_CMD: "bash /entrypoint.sh"
+  COLOR_BRED: "\e[1;31m"
+  COLOR_BWHITE: "\e[1;97m"
+  COLOR_END: "\e[0m"
+  # deb packages to be installed inside the docker container
+  SLAMCORE_DEBS:
+    sh: echo $SLAMCORE_DEV_PKG\ $SLAMCORE_ROS_PKG
+  COMBINATION_VALIDITY_CMD: "share/combination_validity.py"
+
+tasks:
+  # prerequisites ------------------------------------------------------------------------------------------------------
+  build_prereqs:
+    internal: true
+    vars:
+      CHECK_GROUPS_CMD: "share/check-groups.sh"
+    preconditions:
+      - sh: "{{.CHECK_GROUPS_CMD}}"
+        msg: "User not in the right groups, command: [{{.CHECK_GROUPS_CMD}}]"
+      - sh: test -n "$SLAMCORE_ROS_PKG"
+        msg: SLAMCORE_ROS_PKG environment variable is not set - Please set it to the full path of the debian package and re-run
+      - sh: test -n "$SLAMCORE_DEV_PKG"
+        msg: SLAMCORE_DEV_PKG environment variable is not set - Please set it to the full path of the debian package and re-run
+
+  global_prereqs:
+    internal: true
+    cmds:
+      - "{{.COMBINATION_VALIDITY_CMD}} --check-combinations"
+    env:
+      ROBOT: "{{.ROBOT}}"
+
+  # kobuki -------------------------------------------------------------------------------------------------------------
+  kobuki:build:
+    cmds:
+      - task: robot:build
+        vars:
+          ROBOT: "kobuki"
+          PACKAGES_TO_IGNORE: "slamcore_ros2_create3_example slamcore_ros2_turtlebot4_example"
+          FORCE_STATUS: "{{.FORCE_STATUS}}"
+    desc: "Build a docker image using the slamcore_ros2.deb package for the kobuki platform"
+    summary: |
+      "Build a docker image using the slamcore_ros2.deb package for the kobuki platform.
+
+       Example: SLAMCORE_ROS_PKG=/path/to/slamcore_ros2.deb SLAMCORE_DEV_PKG=/path/to/slamcore_dev.deb ROS_VER=foxy task kobuki:build"
+
+  kobuki:run:
+    cmds:
+      - task: robot:run
+        vars:
+          ROBOT: "kobuki"
+    desc: "Start the container for slamcore-ros2-examples and the kobuki model"
+
+  kobuki:stop:
+    cmds:
+      - task: robot:stop
+        vars:
+          ROBOT: "kobuki"
+    desc: "Stop and remove the container for slamcore-ros2-examples and the kobuki model"
+
+  kobuki:purge:
+    cmds:
+      - task: robot:purge
+        vars:
+          ROBOT: "kobuki"
+    desc: "Remove both the docker container and image for slamcore-ros2-examples and the kobuki model"
+
+  kobuki:recreate:
+    cmds:
+      - task: robot:recreate
+        vars:
+          ROBOT: "kobuki"
+    desc: "Remove the docker container and recreate it"
+
+  # create3 ------------------------------------------------------------------------------------------------------------
+  create3:build:
+    cmds:
+      - task: robot:build
+        vars:
+          ROBOT: "create3"
+          PACKAGES_TO_IGNORE: "slamcore_ros2_kobuki_example slamcore_ros2_turtlebot4_example"
+          PACKAGES_TO_IGNORE_RE: "''kobuki*''"
+          FORCE_STATUS: "{{.FORCE_STATUS}}"
+    desc: "Build a docker image using the slamcore_ros2.deb package for the create3 platform"
+    summary: |
+      "Build a docker image using the slamcore_ros2.deb package for the create3 platform.
+
+       Example: SLAMCORE_ROS_PKG=/path/to/slamcore_ros2.deb SLAMCORE_DEV_PKG=/path/to/slamcore_dev.deb ROS_VER=galactic task creat3:build"
+
+  create3:run:
+    cmds:
+      - task: robot:run
+        vars:
+          ROBOT: "create3"
+    desc: "Start the container for slamcore-ros2-examples and the create3 model"
+
+  create3:stop:
+    cmds:
+      - task: robot:stop
+        vars:
+          ROBOT: "create3"
+    desc: "Stop and remove the container for slamcore-ros2-examples and the create3 model"
+
+  create3:purge:
+    cmds:
+      - task: robot:purge
+        vars:
+          ROBOT: "create3"
+    desc: "Remove both the docker container and image for slamcore-ros2-examples and the create3 model"
+
+  create3:recreate:
+    cmds:
+      - task: robot:recreate
+        vars:
+          ROBOT: "create3"
+    desc: "Remove the docker container and recreate it"
+
+  # turtlebot4 ------------------------------------------------------------------------------------------------------------
+  turtlebot4:build:
+    cmds:
+      - task: robot:build
+        vars:
+          ROBOT: "turtlebot4"
+          PACKAGES_TO_IGNORE: "slamcore_ros2_kobuki_example slamcore_ros2_create3_example"
+          PACKAGES_TO_IGNORE_RE: "''kobuki*''"
+          FORCE_STATUS: "{{.FORCE_STATUS}}"
+    desc: "Build a docker image using the slamcore_ros2.deb package for the turtlebot4 platform"
+    summary: |
+      "Build a docker image using the slamcore_ros2.deb package for the turtlebot4 platform.
+
+       Example: SLAMCORE_ROS_PKG=/path/to/slamcore_ros2.deb SLAMCORE_DEV_PKG=/path/to/slamcore_dev.deb ROS_VER=galactic task creat3:build"
+
+  turtlebot4:run:
+    cmds:
+      - task: robot:run
+        vars:
+          ROBOT: "turtlebot4"
+    desc: "Start the container for slamcore-ros2-examples and the turtlebot4 model"
+
+  turtlebot4:stop:
+    cmds:
+      - task: robot:stop
+        vars:
+          ROBOT: "turtlebot4"
+    desc: "Stop and remove the container for slamcore-ros2-examples and the turtlebot4 model"
+
+  turtlebot4:purge:
+    cmds:
+      - task: robot:purge
+        vars:
+          ROBOT: "turtlebot4"
+    desc: "Remove both the docker container and image for slamcore-ros2-examples and the turtlebot4 model"
+
+  turtlebot4:recreate:
+    cmds:
+      - task: robot:recreate
+        vars:
+          ROBOT: "turtlebot4"
+    desc: "Remove the docker container and recreate it"
+
+  # robot agnostic steps -----------------------------------------------------------------------------------------------
+  robot:build:
+    internal: true
+    silent: True
+    vars:
+      DOCKER_NAME: "{{.DOCKER_NAME_BASE}}_{{.ROBOT}}"
+      TEMPDIR:
+        sh: mktemp --directory --suffix "-slamcore"
+      DPKG_DEBS_DIR:
+        sh: mkdir {{.TEMPDIR}}/debs && echo {{.TEMPDIR}}/debs
+      ADDITIONAL_GROUPS:
+        sh: echo $(cut -d':' -f3 < <(getent group video)),$(cut -d':' -f3 < <(getent group dialout))
+    status:
+      # If any of these are False, then run run the command
+      - test -z "{{.FORCE_STATUS}}"
+      - docker image ls --format {{"{{"}}.Repository{{"}}"}} | grep -q {{.DOCKER_NAME}}
+    cmds:
+      - task: global_prereqs
+        vars:
+          ROBOT: "{{.ROBOT}}"
+      - cp {{.SLAMCORE_DEBS}} {{.DPKG_DEBS_DIR}}/
+      - sed -e 's/\bPACKAGES_TO_IGNORE\b/{{.PACKAGES_TO_IGNORE}}/' -e 's/\bPACKAGES_TO_IGNORE_RE\b/{{.PACKAGES_TO_IGNORE_RE}}/' share/entrypoint.sh.in >> {{.TEMPDIR}}/entrypoint.sh
+      - cp share/add-groups.sh {{.TEMPDIR}}/
+      - cp dependencies-{{.ROBOT}}.txt {{.TEMPDIR}}/
+      - cmd: |
+          docker build \
+          --build-arg DPKG_DEBS_DIR=debs \
+          --build-arg ROBOT={{.ROBOT}} \
+          --build-arg ROS_VER={{.ROS_VER}} \
+          --build-arg GID=$(id -g) \
+          --build-arg UID=$(id -u) \
+          --build-arg ADDITIONAL_GROUPS={{.ADDITIONAL_GROUPS}} \
+          --tag {{.DOCKER_NAME}} \
+          --file {{.DOCKERFILE_PATH}} {{.TEMPDIR}}
+      - defer: echo -e "\n{{.COLOR_BWHITE}}Created a docker image for running the Slamcore - {{.ROBOT}} example -> {{.DOCKER_NAME}}{{.COLOR_END}}\n"
+      - defer: rm -rf {{.TEMPDIR}}
+
+  robot:run:
+    internal: true
+    silent: true
+    vars:
+      DOCKER_NAME: "{{.DOCKER_NAME_BASE}}_{{.ROBOT}}"
+      CONTAINER_ID:
+        sh: docker container inspect "{{.DOCKER_NAME}}" --format {{"{{"}}.Id{{"}}"}} 2>/dev/null || true
+      IMAGE_MOST_RECENT:
+        sh: docker image inspect "{{.DOCKER_NAME}}" --format {{"{{"}}.Id{{"}}"}} 2>/dev/null || true
+      IMAGE_OF_CONTAINER:
+        sh: docker container inspect "{{.DOCKER_NAME}}" --format {{"{{"}}.Image{{"}}"}} 2>/dev/null || true
+    deps:
+      - task: "{{.ROBOT}}:build"
+    cmds:
+      - task: global_prereqs
+        vars:
+          ROBOT: "{{.ROBOT}}"
+      # Notify the user if they're using an old version of the docker image
+      - cmd: |
+          test -n "{{.IMAGE_MOST_RECENT}}"  && test -n "{{.CONTAINER_ID}}" && ( \
+          test "{{.IMAGE_MOST_RECENT}}" == "{{.IMAGE_OF_CONTAINER}}" || \
+          (echo -e '\n{{.COLOR_BRED}}The container (id={{.CONTAINER_ID}}) is built with an outdated version of {{.DOCKER_NAME}}. Use the "recreate" command to stop the current container and re-run it{{.COLOR_END}}\n' && sleep 1))
+        ignore_error: true
+      # if container is already up, connect to it, otherwise, spawn a new
+      # container from the image
+      - cmd: |
+          if docker container ls --all --format {{"{{"}}.Names{{"}}"}} | grep -q "{{.DOCKER_NAME}}"; then \
+          echo -e "\n{{.COLOR_BWHITE}}Connecting to running container for image -> {{.DOCKER_NAME}}{{.COLOR_END}}\n"; \
+          docker container start {{.DOCKER_NAME}} 1>/dev/null; \
+          docker exec -it {{.DOCKER_NAME}} {{.LOGIN_CMD}}; \
+          else \
+          echo -e "\n{{.COLOR_BWHITE}}Spawning new contrainer from image -> {{.DOCKER_NAME}}{{.COLOR_END}}\n"; \
+          docker run \
+          --volume {{.ROOT_DIR}}:{{.ROS_WS}}/{{.THIS_REPONAME}} \
+          --volume /tmp/.X11-unix:/tmp/.X11-unix:rw \
+          --volume /dev/:/dev/ \
+          --volume /var/run/dbus/:/var/run/dbus/ \
+          --volume ${HOME}/.bash_history:/home/{{.DOCKER_USER}}/.bash_history \
+          --network host \
+          --ipc=host \
+          --privileged \
+          --env DISPLAY=${DISPLAY} \
+          --env=QT_X11_NO_MITSHM=1 \
+          -it --name {{.DOCKER_NAME}} {{.DOCKER_NAME}}; \
+          fi
+
+  robot:stop:
+    internal: true
+    vars:
+      DOCKER_NAME: "{{.DOCKER_NAME_BASE}}_{{.ROBOT}}"
+    cmds:
+      - cmd: docker container stop {{.DOCKER_NAME}} 1>/dev/null 2>/dev/null
+        ignore_error: true
+      - cmd: docker container rm {{.DOCKER_NAME}} 1>/dev/null 2>/dev/null
+        ignore_error: true
+
+  robot:purge:
+    internal: true
+    vars:
+      DOCKER_NAME: "{{.DOCKER_NAME_BASE}}_{{.ROBOT}}"
+    cmds:
+      - task: "{{.ROBOT}}:stop"
+      - cmd: docker image rm -f {{.DOCKER_NAME}} 2>/dev/null
+        ignore_error: true
+
+  robot:recreate:
+    internal: true
+    vars:
+      DOCKER_NAME: "{{.DOCKER_NAME_BASE}}_{{.ROBOT}}"
+    cmds:
+      - task: "{{.ROBOT}}:stop"
+      - task: "{{.ROBOT}}:build"
+        vars:
+          FORCE_STATUS: 1
+      - task: "{{.ROBOT}}:run"
+
+  # misc ---------------------------------------------------------------------------------------------------------------
+  report_combinations:
+    cmds:
+      - "{{.COMBINATION_VALIDITY_CMD}} --report"
+    desc: "Print all valid robot-ros_version combinations"

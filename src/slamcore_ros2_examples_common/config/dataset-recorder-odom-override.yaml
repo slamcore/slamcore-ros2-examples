@@ -1,0 +1,7 @@
+/slamcore:
+  dataset_recorder:
+    ros__parameters:
+      qos_overrides:
+        /odom:
+          subscription:
+            reliability: best_effort

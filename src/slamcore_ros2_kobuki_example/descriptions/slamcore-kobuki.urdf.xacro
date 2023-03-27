@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<robot name="slamcore_kobuki"
+       xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="camera_tf_root" default="realsense"/>
+
+  <xacro:include filename="$(find kobuki_description)/urdf/kobuki.urdf.xacro" />
+  <xacro:include filename="$(find slamcore_ros2_examples_common)/descriptions/_d435.urdf.xacro" />
+  <xacro:include filename="$(find slamcore_ros2_kobuki_example)/descriptions/plates.urdf.xacro" />
+  <xacro:include filename="$(find slamcore_ros2_kobuki_example)/descriptions/cam_mount_kobuki.urdf.xacro" />
+
+  <xacro:kobuki/>
+  <xacro:sensor_d435 name="$(arg camera_tf_root)" parent="camera_mount_link">
+    <!-- Position of bottom of camera tripod hole relative to bottom of mount tripod hole -->
+    <origin xyz="0.000 0.000 0.014" rpy="0.000 0.000 0.000"/>
+  </xacro:sensor_d435>
+  <xacro:stack_mdf parent="base_link"/>
+  <xacro:cam_mount_kobuki parent="base_link">
+    <!-- Position to base link relative to bottom of mount tripod screw hole -->
+    <origin xyz="0.0981 0.0  0.208" rpy="0.000 0.000 0.000"/>
+  </xacro:cam_mount_kobuki>
+</robot>

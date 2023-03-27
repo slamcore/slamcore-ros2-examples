@@ -1,0 +1,9 @@
+repositories:
+  cmd_vel_mux:
+    type: git
+    version: devel
+    url: https://github.com/slamcore/cmd_vel_mux
+  robot_upstart:
+    type: git
+    version: foxy-devel
+    url: https://github.com/clearpathrobotics/robot_upstart

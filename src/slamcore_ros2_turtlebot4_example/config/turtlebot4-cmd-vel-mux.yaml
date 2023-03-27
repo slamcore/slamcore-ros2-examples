@@ -1,0 +1,23 @@
+cmd_vel_mux_node:
+  ros__parameters:
+    subscribers:
+        joystick_teleop:
+          topic:       "input/joy"
+          timeout:     0.1
+          priority:    6
+          short_desc:  "Joystick Teleoperation"
+        keyboard_teleop:
+          topic:       "input/keyop"
+          timeout:     0.1
+          priority:    5
+          short_desc:  "Keyboard Teleoperation"
+        nav2_stack:
+          topic:       "input/navigation"
+          timeout:     0.5
+          priority:    1
+          short_desc:  "Nav2 Stack Autonomous Controller"
+        default_input:
+          topic:       "input/default"
+          timeout:     0.1
+          priority:    0
+          short_desc:  "The default cmd_vel (usually the zero command) should come on this stream"

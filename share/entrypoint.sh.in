@@ -1,0 +1,71 @@
+#!/bin/env bash
+
+# Edit the container's RC file so that it:
+#
+# * sources the ROS2 setup script
+# * adds a `colcon_build` command which builds the right packages with the right types of flags
+ROS_WS=$HOME/ros_ws
+
+local_setup_bash=${ROS_WS}/install/setup.bash
+if [[ -f $local_setup_bash ]]; then
+  rcfile_base=$local_setup_bash
+else
+  rcfile_base=/opt/ros/$(cat $HOME/.ros_version)/setup.bash
+fi
+
+rcfile=$HOME/.bashrc
+rcfile_local=${rcfile}.local
+
+# remove existing one
+rm -f $rcfile
+
+# warning message -----------------------------------------------------------------------------
+cat << EOF > $rcfile
+# This file will be overridden on <robot>:run.
+# if you want to edit the startup configuration without recreating the docker image and
+# container, edit the $rcfile_local file instead and it will automatically be sourced on
+# startup.
+
+EOF
+
+# ROS2 source ---------------------------------------------------------------------------------
+echo -e "source $rcfile_base\n" >> $rcfile
+
+# assemble colcon_build command ---------------------------------------------------------------
+# + source local bashrc file
+packages_to_ignore=PACKAGES_TO_IGNORE
+packages_to_ignore_re=PACKAGES_TO_IGNORE_RE
+
+if test -n "$packages_to_ignore"
+then
+  packages_to_ignore_str="--packages-ignore $packages_to_ignore"
+else
+  packages_to_ignore_str=
+fi
+
+if test -n "$packages_to_ignore_re"
+then
+  packages_to_ignore_re_str="--packages-ignore-re $packages_to_ignore_re"
+else
+  packages_to_ignore_re_str=
+fi
+
+cat << EOF >> $rcfile
+function colcon_build {
+  colcon \\
+    --log-base $ROS_WS/log \\
+    build \\
+      --build-base $ROS_WS/build \\
+      --install-base $ROS_WS/instal \\
+      --symlink-install \\
+      $packages_to_ignore_str \\
+      $packages_to_ignore_re_str
+}
+
+test -e "$rcfile_local" && source "$rcfile_local"
+EOF
+
+# discourage editing the $rcfile itself
+chmod a-w $rcfile
+
+exec bash --rcfile $rcfile

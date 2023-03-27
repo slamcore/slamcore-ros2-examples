@@ -1,0 +1,24 @@
+joy_linux_node:
+  ros__parameters:
+    dev: "/dev/input/js0"
+    deadzone: 0.1
+    autorepeat_rate': 20.0
+
+teleop_twist_joy_node:
+  ros__parameters:
+    axis_linear:
+      x: 1 # PS4 Left Joystick
+    scale_linear:
+      x: 0.3
+    scale_linear_turbo:
+      x: 0.5
+
+    axis_angular:
+      yaw: 3 # PS4 Right Joystick
+    scale_angular:
+      yaw: 0.7
+    scale_angular_turbo:
+      yaw: 1.9
+
+    enable_button: 4  # PS4 L1 shoulder button
+    enable_turbo_button: 5  # PS4 R1 shoulder button

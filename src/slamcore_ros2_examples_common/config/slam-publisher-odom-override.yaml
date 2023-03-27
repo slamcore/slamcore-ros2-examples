@@ -1,0 +1,4 @@
+qos_overrides:
+  /odom:
+    subscription:
+      reliability: best_effort

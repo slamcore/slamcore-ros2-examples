@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<robot name="slamcore_create3"
+       xmlns:sensor="http://playerstage.sourceforge.net/gazebo/xmlschema/#sensor"
+       xmlns:controller="http://playerstage.sourceforge.net/gazebo/xmlschema/#controller"
+       xmlns:interface="http://playerstage.sourceforge.net/gazebo/xmlschema/#interface"
+       xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <xacro:arg name="camera_tf_root" default="realsense"/>
+
+  <xacro:include filename="$(find irobot_create_description)/urdf/create3.urdf.xacro" />
+  <xacro:include filename="$(find slamcore_ros2_examples_common)/descriptions/_d435.urdf.xacro" />
+  <xacro:include filename="$(find slamcore_ros2_create3_example)/descriptions/cam_mount_create3.urdf.xacro" />
+
+  <xacro:sensor_d435 name="$(arg camera_tf_root)" parent="camera_mount_link">
+    <!-- Pose of camera tripod hole relative to camera mount centre back hole -->
+    <origin xyz="0.053 0.000 0.090" rpy="0.000 0.000 0.000"/>
+  </xacro:sensor_d435>
+  <xacro:cam_mount_create3 parent="base_link">
+    <!-- Pose of camera mount centre back hole base relative to base link (center of rotation of the robot with z height intersecting the floor) -->
+    <origin xyz="0.012 0.000 0.0934" rpy="0.000 0.000 0.000"/> <!-- Tall Mount -->
+  </xacro:cam_mount_create3>
+</robot>

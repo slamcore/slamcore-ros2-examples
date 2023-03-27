@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+<!--
+  Slamcore Camera Mount
+ -->
+<robot name="cam_mount_create3" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Xacro properties -->
+  <xacro:property name="M_SCALE" value="0.001"/> <!-- To apply to STLs that need downsizing -->
+
+  <!-- Xacro materials -->
+  <material name="pla">
+	  <color rgba="0 0 0 1"/>
+  </material>
+
+  <!-- Xacro macros -->
+  <xacro:macro name="cam_mount_create3" params="parent *origin">
+    <joint name="camera_mount_joint" type="fixed">
+      <xacro:insert_block name="origin" />
+      <parent link="${parent}"/>
+      <child link="camera_mount_link"/>
+    </joint>
+    <link name="camera_mount_link">
+      <visual>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://slamcore_ros2_create3_example/meshes/d435i_create3_tall_mount.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/> <!-- Camera mount STL -->
+	      </geometry>
+        <material name="pla"/>
+      </visual>
+      <collision>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+        <geometry>
+          <mesh filename="package://slamcore_ros2_create3_example/meshes/d435i_create3_tall_mount.stl" scale="${M_SCALE} ${M_SCALE} ${M_SCALE}"/> <!-- Camera mount STL -->
+        </geometry>
+      </collision>
+    </link>
+  </xacro:macro>
+</robot>

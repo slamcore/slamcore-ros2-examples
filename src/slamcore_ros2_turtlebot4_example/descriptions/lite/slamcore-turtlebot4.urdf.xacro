@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<robot name="slamcore_turtlebot4" xmlns:xacro="http://ros.org/wiki/xacro">
+
+  <!-- Based on turtlebot4.urdf.xacro from turtlebot4_description -->
+
+  <!-- Base create3 model -->
+  <xacro:include filename="$(find irobot_create_description)/urdf/create3.urdf.xacro" />
+  <xacro:include filename="$(find turtlebot4_description)/urdf/sensors/rplidar.urdf.xacro" />
+  <xacro:include filename="$(find slamcore_ros2_examples_common)/descriptions/_d435.urdf.xacro" />
+  <xacro:include filename="$(find turtlebot4_description)/urdf/sensors/camera_bracket.urdf.xacro" />
+
+  <!-- Mechanical properties -->
+  <xacro:property name="rplidar_x_offset"              value="${0.393584*cm2m}"/>
+  <xacro:property name="rplidar_y_offset"              value="${0*cm2m}"/>
+  <xacro:property name="rplidar_z_offset"              value="${7.529272*cm2m}"/>
+
+  <xacro:property name="camera_mount_x_offset"         value="${-9*cm2m}"/>
+  <xacro:property name="camera_mount_y_offset"         value="${0*cm2m}"/>
+  <xacro:property name="camera_mount_z_offset"         value="${2.914772*cm2m}"/>
+
+  <xacro:arg name="camera_tf_root" default="realsense"/>
+
+  <!-- Pose of camera tripod hole relative to camera mount origin (centre back bottom surface) -->
+  <xacro:property name="realsense_x_offset"             value="${4.60*cm2m}"/>
+  <xacro:property name="realsense_y_offset"             value="${0*cm2m}"/>
+  <xacro:property name="realsense_z_offset"             value="${7.95*cm2m}"/>
+
+  <!-- Turtlebot4 sensor definitions -->
+
+  <xacro:rplidar name="rplidar" parent_link="base_link" gazebo="$(arg gazebo)">
+    <origin xyz="${rplidar_x_offset} ${rplidar_y_offset} ${rplidar_z_offset + base_link_z_offset}"
+            rpy="0 0 ${pi/2}"/>
+  </xacro:rplidar>
+
+  <xacro:camera_bracket name="camera_bracket" parent_link="base_link">
+    <origin xyz="${camera_mount_x_offset} ${camera_mount_y_offset} ${camera_mount_z_offset + base_link_z_offset}"/>
+  </xacro:camera_bracket>
+
+  <xacro:sensor_d435 name="$(arg camera_tf_root)" parent="camera_bracket">
+    <origin xyz="${realsense_x_offset} ${realsense_y_offset} ${realsense_z_offset}"/>
+  </xacro:sensor_d435>
+</robot>

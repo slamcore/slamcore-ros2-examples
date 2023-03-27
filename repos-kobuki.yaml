@@ -1,0 +1,21 @@
+repositories:
+  cmd_vel_mux:
+    type: git
+    version: devel
+    url: https://github.com/slamcore/cmd_vel_mux
+  kobuki_core:
+    type: git
+    version: 1.4.0
+    url: https://github.com/kobuki-base/kobuki_core.git
+  kobuki_ros:
+    type: git
+    version: devel
+    url: https://github.com/kobuki-base/kobuki_ros
+  kobuki_ros_interfaces:
+    type: git
+    version: devel
+    url: https://github.com/kobuki-base/kobuki_ros_interfaces
+  navigation2:
+    type: git
+    version: foxy-devel
+    url: https://github.com/slamcore/navigation2

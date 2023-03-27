@@ -1,0 +1,79 @@
+{
+  "Base": {
+    "ProfileName": "vik_calibration",
+    "Readers": [
+      {
+        "FpsOverride": 7.5
+      }
+    ]
+  },
+  "LocalPointCloud": {
+    "LowerBound": -0.13
+  },
+  "Patch": {
+    "Base": {
+      "Sensors": [
+        {
+          "EstimationScaleY": false,
+          "InitialRotationVariance": 0.01,
+          "InitialRotationVariancePoorVisual": 0.01,
+          "InitialTranslationVariance": 0.01,
+          "InitialTranslationVariancePoorVisual": 1e-08,
+          "ReferenceFrame": "Odometry_0",
+          "ScaleTheta": 1.0026255617101136,
+          "ScaleX": 1.0001019356314624,
+          "ScaleY": 1.0,
+          "SigmaCauchyKernel": 0.33201,
+          "SigmaTheta": 1.53982,
+          "SigmaX": 0.00527234,
+          "SigmaY": 0.00149678,
+          "TimeOffset": -41600000,
+          "Type": [
+            "Odometry",
+            0
+          ]
+        }
+      ],
+      "StaticTransforms": [
+        {
+          "ChildReferenceFrame": "Odometry_0",
+          "ReferenceFrame": "IMU_0",
+          "T": {
+            "R": [
+              0.5059834380603616,
+              0.4932757244130568,
+              -0.4982695482021175,
+              0.5023816054035498
+            ],
+            "T": [
+              0.0182496832942258,
+              0.233239134195596,
+              -0.0978480947537758
+            ]
+          }
+        }
+      ]
+    }
+  },
+  "Position": {
+    "Backend": {
+      "Type": "VisualInertialKinematic"
+    },
+    "Estimator": {
+      "TimeBudget": "10ms"
+    },
+    "Frontend": {
+      "ExtractorType": "SAFE_V2",
+      "TrackingOnPlane": {
+        "DetectionMethod": "USE_PRIOR_PLANE_NORMAL",
+        "DoTrackingOnPlane": true,
+        "PriorPlaneNormal": [
+          0.0,
+          0.0,
+          1.0
+        ]
+      }
+    }
+  },
+  "Version": "1.1.0"
+}

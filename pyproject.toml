@@ -1,0 +1,44 @@
+# isort ------------------------------------------------------------------------
+[tool.isort]
+include_trailing_comma = true
+line_length = 95
+multi_line_output = 3
+profile = "black"
+
+# black ------------------------------------------------------------------------
+[tool.black]
+preview = true
+line-length = 95
+target-version = ['py38', 'py39']
+include = '\.pyi?$'
+
+# mypy -------------------------------------------------------------------------
+[tool.mypy]
+warn_return_any = true
+warn_unused_configs = true
+
+[[tool.mypy.overrides]]
+module = [
+    "ament_index_python.*",
+    "builtin_interfaces.*",
+    "composition_interfaces.*",
+    "launch.*",
+    "launch_ros.*",
+    "lifecycle_msgs.*",
+    "osrf_pycommon.*",
+    "rcl_interfaces.*",
+    "rclpy.*",
+    "rosgraph_msgs.*",
+    "rosidl_cmake.*",
+    "rosidl_parser.*",
+    "rpyutils.*",
+    "xacro.*",
+]
+ignore_errors = true
+
+# pyright ----------------------------------------------------------------------
+[tool.pyright]
+reportMissingImports = true
+reportMissingTypeStubs = false
+pythonVersion = "3.8"
+pythonPlatform = "Linux"
